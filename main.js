@@ -29,4 +29,19 @@ async function scheduleExam(id, scheduleDate){
         console.log(value, status[2]);
         console.log('Exam date on ' + examDate);
     })
+    rateEntranceExam(id, status);
+}
+
+async function rateEntranceExam(id, status){
+    var examScore = Math.random() * (120 - 40) + 40;
+    examScore = examScore.toFixed();
+    await db.get(id, function(err, value){
+        if(examScore >= 70){
+            console.log('Exam score is ' + examScore);
+            console.log(value, status[3]);
+        } else{
+            console.log('Exam score is ' + examScore);
+            console.log(value, status[4]);
+        }
+    })
 }
