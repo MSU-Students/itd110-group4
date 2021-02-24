@@ -12,4 +12,12 @@ function acceptStudent(id, fullName, age, address){
     db.get(id, function(err, value){
         console.log(value, status[0]); 
     })
+    scheduleInterview(id, 'February 26, 2021');
+}
+
+async function scheduleInterview(id, scheduleDate){
+    await db.get(id, function(err, value){
+        console.log(value, status[1]);
+        console.log('Interview date on ' + scheduleDate);
+    })
 }
