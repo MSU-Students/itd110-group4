@@ -20,4 +20,13 @@ async function scheduleInterview(id, scheduleDate){
         console.log(value, status[1]);
         console.log('Interview date on ' + scheduleDate);
     })
+    scheduleExam(id, scheduleDate);
+}
+
+async function scheduleExam(id, scheduleDate){
+    await db.get(id, function(err, value){
+        var examDate = 'March 1, 2021';
+        console.log(value, status[2]);
+        console.log('Exam date on ' + examDate);
+    })
 }
