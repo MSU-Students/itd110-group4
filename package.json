@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/MSU-Students/itd110-group4/issues"
   },
-  "homepage": "https://github.com/MSU-Students/itd110-group4#readme"
+  "homepage": "https://github.com/MSU-Students/itd110-group4#readme",
+  "dependencies": {
+    "level": "^6.0.1"
+  }
 }
