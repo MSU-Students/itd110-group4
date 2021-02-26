@@ -1,12 +1,16 @@
-var level = require('level');
-var db = level('./leveldb', { valueEncoding: 'json' });
+const level = require('level');
+const db = connectToDatabase('./leveldb');
 
 var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probationary'];
 
 acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
 
+function connectToDatabase(db){
+    return level(db, { valueEncoding: 'json' });
+}
+
 function acceptStudent(id, fullName, age, address){
-    db.put(id, { ID:id, Fullname: fullName, Age: age, Address: address }, function(err){
+    db.put(id, { ID:id, Name: fullName, Age: age, Address: address }, function(err){
         //At this point 201812485 = ['201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City']
     })
     db.get(id, function(err, value){
@@ -18,7 +22,7 @@ function acceptStudent(id, fullName, age, address){
 async function scheduleInterview(id, scheduleDate){
     await db.get(id, function(err, value){
         console.log(value, status[1]);
-        console.log('Interview date on ' + scheduleDate);
+        console.log('Interview date on', scheduleDate);
     })
     scheduleExam(id, scheduleDate);
 }
@@ -27,7 +31,7 @@ async function scheduleExam(id, scheduleDate){
     await db.get(id, function(err, value){
         var examDate = 'March 1, 2021';
         console.log(value, status[2]);
-        console.log('Exam date on ' + examDate);
+        console.log('Exam date on', examDate);
     })
     rateEntranceExam(id, status);
 }
@@ -37,10 +41,10 @@ async function rateEntranceExam(id, status){
     examScore = examScore.toFixed();
     await db.get(id, function(err, value){
         if(examScore >= 70){
-            console.log('Exam score is ' + examScore);
+            console.log('Exam score is', examScore);
             console.log(value, status[3]);
         } else{
-            console.log('Exam score is ' + examScore);
+            console.log('Exam score is', examScore);
             console.log(value, status[4]);
         }
     })
