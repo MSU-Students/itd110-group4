@@ -7,12 +7,18 @@ function connectToDatabase(db){
 
 var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probationary'];
 
-acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+(async function() {
+    await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+}());
 
-function acceptStudent(id, fullName, age, address){
+async function acceptStudent(id, fullName, age, address){
     let attributes = { ID:id, Name: fullName, Age: age, Address: address };
-    db.put(id, attributes);
-    db.get(id, function(err, value){
-        console.log(value, status[0]);
+    await db.put(id, attributes);
+    return await db.get(id, function(err, value){
+        if(err){
+            console.log(err);
+        } else{
+            console.log(value, status[0]);
+        }
     })
 }
