@@ -8,7 +8,10 @@ function connectToDatabase(db){
 var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probationary'];
 
 (async function() {
-    await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+    var id = await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+    var scheduleDate = new Date('March 1, 2021 08:30:00');
+    await scheduleInterview(id, scheduleDate);
+    await scheduleExam(id, scheduleDate);
 }());
 
 async function acceptStudent(id, fullName, age, address){
@@ -21,31 +24,33 @@ async function acceptStudent(id, fullName, age, address){
             console.log(value, status[0]);
         }
     })
-    var scheduleDate = new Date('March 1, 2021 08:30:00');
-    return await scheduleInterview(id, scheduleDate);
+    return id;
 }
 
 async function scheduleInterview(id, scheduleDate){
-    await db.get(id, function(err, value){
+    var student = await db.get(id);
+    student.InterviewDate = scheduleDate;
+    await db.put(id, student);
+    return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
             console.log(value, status[1]);
-            console.log('Interview date on', scheduleDate);
         }
     })
-    return await scheduleExam(id, scheduleDate);
 }
 
 async function scheduleExam(id, scheduleDate){
     var examDate = new Date(scheduleDate);
     examDate.setDate(examDate.getDate() + 10);
+    var student = await db.get(id);
+    student.ExamDate = examDate;
+    await db.put(id, student);
     return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
             console.log(value, status[2]);
-            console.log('Exam date on', examDate);
         }
     })
 }
