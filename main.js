@@ -8,7 +8,9 @@ function connectToDatabase(db){
 var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probationary'];
 
 (async function() {
-    await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+    var id = await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
+    var scheduleDate = new Date('March 1, 2021 08:30:00');
+    return await scheduleInterview(id, scheduleDate);
 }());
 
 async function acceptStudent(id, fullName, age, address){
@@ -21,8 +23,7 @@ async function acceptStudent(id, fullName, age, address){
             console.log(value, status[0]);
         }
     })
-    var scheduleDate = new Date('March 1, 2021 08:30:00');
-    return await scheduleInterview(id, scheduleDate);
+    return id;
 }
 
 async function scheduleInterview(id, scheduleDate){
