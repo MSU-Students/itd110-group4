@@ -11,7 +11,9 @@ var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probat
     var id = await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
     var scheduleDate = new Date('March 1, 2021 08:30:00');
     await scheduleInterview(id, scheduleDate);
-    await scheduleExam(id, scheduleDate);
+    var examDate = new Date('March 11, 2021 08:30:00');
+    await scheduleExam(id, examDate);
+
 }());
 
 async function acceptStudent(id, fullName, age, address){
@@ -42,7 +44,6 @@ async function scheduleInterview(id, scheduleDate){
 
 async function scheduleExam(id, scheduleDate){
     var examDate = new Date(scheduleDate);
-    examDate.setDate(examDate.getDate() + 10);
     var student = await db.get(id);
     student.ExamDate = examDate;
     await db.put(id, student);
