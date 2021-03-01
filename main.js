@@ -26,12 +26,14 @@ async function acceptStudent(id, fullName, age, address){
 }
 
 async function scheduleInterview(id, scheduleDate){
+    var student = await db.get(id);
+    student.InterviewDate = scheduleDate;
+    await db.put(id, student);
     return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
             console.log(value, status[1]);
-            console.log('Interview date on', scheduleDate);
         }
     })
 }
