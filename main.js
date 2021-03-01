@@ -10,7 +10,10 @@ var status = ['Applying', 'Under Interview', 'Exam Pending', 'Admitted', 'Probat
 (async function() {
     var id = await acceptStudent('201812485', 'Abdul Moiz Solaiman', 22, 'Marawi City');
     var scheduleDate = new Date('March 1, 2021 08:30:00');
-    return await scheduleInterview(id, scheduleDate);
+    await scheduleInterview(id, scheduleDate);
+    var examDate = new Date('March 11, 2021 08:30:00');
+    await scheduleExam(id, examDate);
+
 }());
 
 async function acceptStudent(id, fullName, age, address){
@@ -29,12 +32,28 @@ async function acceptStudent(id, fullName, age, address){
 async function scheduleInterview(id, scheduleDate){
     var student = await db.get(id);
     student.InterviewDate = scheduleDate;
+    student.Status = status[1];
     await db.put(id, student);
     return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
-            console.log(value, status[1]);
+            console.log(value, value.Status);
+        }
+    })
+}
+
+async function scheduleExam(id, scheduleDate){
+    var examDate = new Date(scheduleDate);
+    var student = await db.get(id);
+    student.ExamDate = examDate;
+    student.Status = status[2];
+    await db.put(id, student);
+    return await db.get(id, function(err, value){
+        if(err){
+            console.log(err);
+        } else{
+            console.log(value, value.Status);
         }
     })
 }
