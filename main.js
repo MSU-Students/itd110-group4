@@ -32,12 +32,13 @@ async function acceptStudent(id, fullName, age, address){
 async function scheduleInterview(id, scheduleDate){
     var student = await db.get(id);
     student.InterviewDate = scheduleDate;
+    student.Status = status[1];
     await db.put(id, student);
     return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
-            console.log(value, status[1]);
+            console.log(value, value.Status);
         }
     })
 }
@@ -46,12 +47,13 @@ async function scheduleExam(id, scheduleDate){
     var examDate = new Date(scheduleDate);
     var student = await db.get(id);
     student.ExamDate = examDate;
+    student.Status = status[2];
     await db.put(id, student);
     return await db.get(id, function(err, value){
         if(err){
             console.log(err);
         } else{
-            console.log(value, status[2]);
+            console.log(value, value.Status);
         }
     })
 }
